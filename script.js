@@ -2,9 +2,8 @@
 const game = {
   lives: 3,
   timer: 0,
-  interval: null,
   gameSpeed: 1700,
-  board: 25,
+  board: 16
 };
 
 // Получаем элементы DOM
@@ -55,7 +54,7 @@ function spawnElement(type) {
     return;
   }
   const cell = getRandomCell();
-  if (cell.innerHTML !== "") return; // Проверяем, что ячейка пустая
+  // if (cell.innerHTML !== "") return; // Проверяем, что ячейка пустая
 
   const element = document.createElement("img");
   element.src = type === "mole" ? "assets/mole.png" : "assets/heart.png";
@@ -96,7 +95,9 @@ function spawnElement(type) {
         delete element.dataset.clicked; // Удаляем атрибут
         element.remove(); // Удаляем сам элемент
     }, 500);
-  }, 1000);
+  }, Math.max(700, game.gameSpeed));
+
+  setTimeout(gettingFaster, game.gameSpeed);
 }
 
 // Функция обработки кликов по кроту или сердцу
@@ -136,17 +137,18 @@ function startGame() {
   game.gameSpeed = 1700;
   livesDisplay.innerText = "❤️❤️❤️";
 
-  game.interval = setInterval(() => {
-    game.timer++;
-    timerDisplay.innerText = `Время: ${Math.floor(game.timer / 60)}:${(game.timer % 60).toString().padStart(2, "0")}`;
-    spawnElement(Math.random() < 0.9 ? "mole" : "heart");
-     // Уменьшаем скорость, но не даем ей упасть ниже 600 мс
-    game.gameSpeed = Math.max(300, game.gameSpeed - 50);
-    console.log("Новая скорость:", game.gameSpeed);
+  setTimeout(gettingFaster, game.gameSpeed);
+}
 
-    // Очищаем старый интервал и запускаем новый с обновленной скоростью
-  
-  }, game.gameSpeed);
+
+// Функция уменьшения ускоряющегося спавна
+function gettingFaster() {
+  game.timer++;
+  timerDisplay.innerText = `Время: ${Math.floor(game.timer / 60)}:${(game.timer % 60).toString().padStart(2, "0")}`;
+  spawnElement(Math.random() < 0.9 ? "mole" : "heart");
+   // Уменьшаем скорость, но не даем ей упасть ниже 600 мс
+  game.gameSpeed = Math.max(700, game.gameSpeed - 50);
+  console.log("Новая скорость:", game.gameSpeed);
 }
 
 // Функция проверки конца игры
@@ -155,7 +157,7 @@ function checkGameOver() {
     clearInterval(game.interval);
     gameOverScreen.classList.remove("hidden");
     gameContainer.classList.add("hidden");
-    finalTime.innerText = `Ты продержался ${Math.floor(game.timer / 60)} мин. ${(game.timer % 60)} сек.`;
+    finalTime.innerText = `Ты продержался ${game.timer} сек.`;
     sounds.gameOver.play();
   }
 }
