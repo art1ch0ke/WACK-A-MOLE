@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 window.addEventListener('DOMContentLoaded', function() {
   // Глобальный объект игры
   const game = {
@@ -7,6 +8,16 @@ window.addEventListener('DOMContentLoaded', function() {
     gameSpeed: 1700,
     board: 16,
     startTime: 0,
+=======
+// Глобальный объект игры
+const game = {
+  lives: 3,
+  timer: 0,
+  gameSpeed: 1700,
+  minSpeed: window.innerWidth <= 768 ? 400 : 700,
+  board: 16
+};
+>>>>>>> 1efdadc70bc2051e9b41d077167daf560c6d77d1
 
   };
   
@@ -53,10 +64,20 @@ window.addEventListener('DOMContentLoaded', function() {
   // Функция отображения элемента (крот или сердце)
   function spawnElement(type) {
 
+<<<<<<< HEAD
     if (game.lives <= 0) {
+=======
+  setTimeout(() => {
+    if (cell.contains(element) && type == "mole" && 
+    element.dataset.clicked == "false") {
+      element.dataset.clicked = "true";
+      game.lives--;
+      element.classList.add("mole-hide");
+>>>>>>> 1efdadc70bc2051e9b41d077167daf560c6d77d1
       checkGameOver();
       return;
     }
+<<<<<<< HEAD
 
     const cell = getRandomCell();
   
@@ -101,6 +122,30 @@ window.addEventListener('DOMContentLoaded', function() {
     }, Math.max(game.minSpeed, game.gameSpeed));
   
     setTimeout(gettingFaster, game.gameSpeed);
+=======
+    else if(type == "heart" &&
+    element.dataset.clicked == "false") {
+      element.dataset.clicked = "true";
+      element.classList.add("heart-blink");
+      sounds.missHeart.play();
+    }
+
+    setTimeout(() => {
+      delete element.dataset.clicked; // Удаляем атрибут
+      element.remove(); // Удаляем сам элемент
+  }, 500);
+  }, Math.max(game.minSpeed, game.gameSpeed));
+
+  setTimeout(gettingFaster, game.gameSpeed);
+}
+
+// Функция обработки кликов по кроту или сердцу
+function handleClick(type, element) {
+  console.log(`Нажатие: ${type}`); // Отладка
+  if (element.dataset.clicked == "true") {
+    console.log("ВЫХОД! УЖЕ НАЖАЛИ");
+    return;
+>>>>>>> 1efdadc70bc2051e9b41d077167daf560c6d77d1
   }
   
   // Функция обработки кликов по кроту или сердцу
@@ -128,6 +173,7 @@ window.addEventListener('DOMContentLoaded', function() {
       sounds.hitHeart.play();
     }
   }
+<<<<<<< HEAD
   
   
   // Функция старта игры
@@ -141,6 +187,47 @@ window.addEventListener('DOMContentLoaded', function() {
     livesDisplay.innerText = "❤️".repeat(game.lives);
   
     setTimeout(gettingFaster, game.gameSpeed);
+=======
+}
+
+
+// Функция старта игры
+function startGame() {
+  startScreen.classList.add("hidden");
+  gameContainer.classList.remove("hidden");
+  game.lives = 3;
+  game.timer = 0;
+  game.gameSpeed = 1700;
+  livesDisplay.innerText = "❤️❤️❤️";
+
+  setTimeout(gettingFaster, game.gameSpeed);
+}
+
+
+// Функция уменьшения ускоряющегося спавна
+function gettingFaster() {
+  game.timer++;
+  timerDisplay.innerText = `Время: ${Math.floor(game.timer / 60)}:${(game.timer % 60).toString().padStart(2, "0")}`;
+  spawnElement(Math.random() < 0.9 ? "mole" : "heart");
+   // Уменьшаем скорость, но не даем ей упасть ниже 600 мс
+  game.gameSpeed = Math.max(game.minSpeed, game.gameSpeed - 50);
+  console.log("Новая скорость:", game.gameSpeed);
+}
+
+// Функция проверки конца игры
+function checkGameOver() {
+  if (game.lives <= 0) {
+    gameOverScreen.classList.remove("hidden");
+    gameContainer.classList.add("hidden");
+    if (game.timer / 60 >= 1) {
+      finalTime.innerText = 
+      `Ты продержался ${Math.floor(game.timer / 60)} мин. ${(game.timer % 60)} сек.`;
+    }
+    else {
+      finalTime.innerText = `Ты продержался ${game.timer} сек.`;
+    }
+    sounds.gameOver.play();
+>>>>>>> 1efdadc70bc2051e9b41d077167daf560c6d77d1
   }
   
   

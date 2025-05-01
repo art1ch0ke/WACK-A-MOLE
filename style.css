@@ -1,12 +1,9 @@
   body {
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #075a7d, #86fdff);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
     color: #222;
     text-align: center;
-    min-height: 80vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,7 +22,6 @@
     padding: 20px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    opacity: 1;
     transform: translate(-50%, -50%) scale(1);
     transition: opacity 0.5s ease, transform 0.5s ease;
     display: block;
@@ -61,7 +57,7 @@
   /* Сетка */
   #grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr);  /* Менять здесь */
     gap: 10px;
     margin-bottom: 20px;
   }
@@ -90,7 +86,7 @@
   #lives {
     color: #d11515;
     font-weight: bold;
-    font-size: 1.4em;
+    font-size: 1.4rem;
     min-height: 5px;
   }
 
@@ -99,7 +95,8 @@
     font-size: 1.2em;
     font-weight: bold;
   }
-
+ 
+           /*  Анимации */
   /* Анимации появления крота и сердца */
   @keyframes mole-spawn {
     0% {
@@ -157,7 +154,7 @@
     0% { transform: scale(1); opacity: 1;}
     30% { transform: scale(0.6) rotate(90deg); opacity: .7; }
     60% { transform: scale(0.3) rotate(180deg);  opacity: .5;}
-    80% { transform: scale(0) rotate(360deg); opacity: .3; }
+    80% { transform: scale(0.1) rotate(360deg); opacity: .3; }
     100% { transform: scale(0) rotate(720deg); opacity: 0; }
   }
 
